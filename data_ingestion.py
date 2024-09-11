@@ -3,7 +3,7 @@ This file takes in the NASA all exoplanets dataset and the IAC atmospheres datas
 '''
 import pandas as pd
 import numpy as np
-import datetime.datetime as dt
+from datetime import datetime as dt
 
 def combine_csvs(atm_csv_path: str, exo_csv_path: str):
     '''
@@ -16,20 +16,20 @@ def combine_csvs(atm_csv_path: str, exo_csv_path: str):
     atm_df = pd.read_csv(atm_csv_path,sep=';')
     all_exo_df = pd.read_csv(exo_csv_path,sep=',')
 
-    # clean; remove controversial and remove unconfirmed planets
+    # clean
     all_exo_df = all_exo_df[all_exo_df.pl_controv_flag == 0]
     atm_df = atm_df[atm_df['planet_status'] == 'Confirmed']
 
     # remove data that is repeated in exo df
-    # makes it easier for groupby function
     atm_df_clean = atm_df.drop(['planet_status', 'mass', 'radius', 'orbital_period', 'semi_major_axis',
                                 'star_distance', 'star_teff', 'star_radius', 'mag_v', 'mag_j', 'mag_k',
                                 'alternate_names'],axis=1)
     
-    # CONVERT DATES TO DATETIME
     dates = atm_df_clean['updated'].values
+    datetime_dates = [dt.strptime(t, '%m/%d/%y') for t in dates]
+    atm_df_clean['updated'] = datetime_dates
 
-    # CONVERT PHASE CURVE TO BOOLEAN
+    atm_df_clean = atm_df_clean.replace({'phase_curve': {'Yes': True, 'No': False}})
 
     # clean the dataframe - there are multiple repeat names so combine all the data into one row/name
     atm_df_clean = atm_df_clean.groupby(['name']).agg({'type': 'first',
