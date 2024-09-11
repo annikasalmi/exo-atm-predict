@@ -15,6 +15,7 @@ Mostly a repo for me to play with what the "average" exoplanet atmosphere based 
 
 Sources:
 - Canary Islands Exoatmospheres Table: https://research.iac.es/proyecto/exoatmospheres/table.php
-- NASA exoplanets dataset: https://www.kaggle.com/datasets/shivamb/all-exoplanets-dataset?resource=download
+- NASA exoplanets dataset: https://exoplanetarchive.ipac.caltech.edu/cgi-bin/TblView/nph-tblView?app=ExoTbls&config=PSCompPars
+    - NOTE: Used the PSCompPars dataset which is one row per planet. Sometimes calculations are not the same across different sources.
 - PICASO: https://github.com/natashabatalha/picaso/tree/master
 
